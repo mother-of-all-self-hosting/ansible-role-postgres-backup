@@ -27,6 +27,7 @@ devture_postgres_backup_keep_days: 7
 devture_postgres_backup_keep_weeks: 4
 devture_postgres_backup_keep_months: 12
 devture_postgres_backup_healthcheck_port: "8080"
+devture_postgres_backup_timezone: 'UTC'
 
 # devture_postgres_backup_databases contains a list of database names to back up
 devture_postgres_backup_databases: []
