@@ -63,7 +63,8 @@ devture_postgres_backup_container_image_v12: "{{ devture_postgres_backup_contain
 devture_postgres_backup_container_image_v13: "{{ devture_postgres_backup_container_image_registry_prefix }}prodrigestivill/postgres-backup-local:13-{{ devture_postgres_backup_container_image_distro }}-2cf00a5"
 devture_postgres_backup_container_image_v14: "{{ devture_postgres_backup_container_image_registry_prefix }}prodrigestivill/postgres-backup-local:14-{{ devture_postgres_backup_container_image_distro }}-2cf00a5"
 devture_postgres_backup_container_image_v15: "{{ devture_postgres_backup_container_image_registry_prefix }}prodrigestivill/postgres-backup-local:15-{{ devture_postgres_backup_container_image_distro }}-2cf00a5"
-devture_postgres_backup_container_image_latest: "{{ devture_postgres_backup_container_image_v15 }}"
+devture_postgres_backup_container_image_v16: "{{ devture_postgres_backup_container_image_registry_prefix }}prodrigestivill/postgres-backup-local:16-{{ devture_postgres_backup_container_image_distro }}-1a66318"
+devture_postgres_backup_container_image_latest: "{{ devture_postgres_backup_container_image_v16 }}"
 
 # This variable is assigned at runtime if `devture_postgres_backup_postgres_data_path` is not empty. Overriding its value in that case has no effect.
 devture_postgres_backup_container_image_to_use: '{{ devture_postgres_backup_container_image_latest }}'
