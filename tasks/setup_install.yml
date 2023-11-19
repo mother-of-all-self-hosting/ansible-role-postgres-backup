@@ -4,7 +4,7 @@
   block:
     - name: Detect Postgres version from provided data path
       ansible.builtin.include_role:
-        name: galaxy/com.devture.ansible.role.postgres
+        name: "{{ devture_postgres_backup_postgres_role_include_name }}"
         tasks_from: detect_existing_postgres_version
 
     # If we have found an existing version (installed from before), we use its corresponding Docker image.

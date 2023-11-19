@@ -42,6 +42,11 @@ devture_postgres_backup_databases: []
 # If so, the default value of `devture_postgres_backup_container_image_to_use` is used.
 devture_postgres_backup_postgres_data_path: ''
 
+# Specifies where the Postgres role is to be included from, for auto-detection purposes.
+# This should be a path relative to your role directories.
+# It gets passed to Ansible's `ansible.builtin.include_role` as a `name` parameter.
+devture_postgres_backup_postgres_role_include_name: galaxy/com.devture.ansible.role.postgres
+
 devture_postgres_backup_architecture: amd64
 
 devture_postgres_backup_systemd_required_services_list: ['docker.service']
