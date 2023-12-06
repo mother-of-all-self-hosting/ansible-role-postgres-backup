@@ -10,7 +10,7 @@ DefaultDependencies=no
 [Service]
 Type=simple
 Environment="HOME={{ devture_systemd_docker_base_systemd_unit_home_path }}"
-ExecStartPre=-{{ devture_systemd_docker_base_host_command_docker }} stop --timeout={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ devture_postgres_backup_identifier }}
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ devture_postgres_backup_identifier }}
 ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ devture_postgres_backup_identifier }} 2>/dev/null || true'
 
 ExecStart={{ devture_systemd_docker_base_host_command_docker }} run \
@@ -25,7 +25,7 @@ ExecStart={{ devture_systemd_docker_base_host_command_docker }} run \
 			--mount type=bind,src={{ devture_postgres_backup_data_path }},dst=/backups \
 			{{ devture_postgres_backup_container_image_to_use }}
 
-ExecStop=-{{ devture_systemd_docker_base_host_command_docker }} stop --timeout={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ devture_postgres_backup_identifier }}
+ExecStop=-{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ devture_postgres_backup_identifier }}
 ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ devture_postgres_backup_identifier }} 2>/dev/null || true'
 Restart=always
 RestartSec=30
