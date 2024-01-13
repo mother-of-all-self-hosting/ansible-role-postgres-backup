@@ -49,7 +49,10 @@ devture_postgres_backup_postgres_role_include_name: galaxy/com.devture.ansible.r
 
 devture_postgres_backup_architecture: amd64
 
-devture_postgres_backup_systemd_required_services_list: ['docker.service']
+devture_postgres_backup_systemd_required_services_list: "{{ devture_postgres_backup_systemd_required_services_list_default + devture_postgres_backup_systemd_required_services_list_auto + devture_postgres_backup_systemd_required_services_list_custom }}"
+devture_postgres_backup_systemd_required_services_list_default: ['docker.service']
+devture_postgres_backup_systemd_required_services_list_auto: []
+devture_postgres_backup_systemd_required_services_list_custom: []
 
 devture_postgres_backup_container_network: ~
 
