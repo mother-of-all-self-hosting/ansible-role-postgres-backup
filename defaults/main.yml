@@ -56,6 +56,10 @@ devture_postgres_backup_systemd_required_services_list_custom: []
 
 devture_postgres_backup_container_network: "{{ devture_postgres_backup_identifier }}"
 
+devture_postgres_backup_container_additional_networks: "{{ devture_postgres_backup_container_additional_networks_auto + devture_postgres_backup_container_additional_networks_custom }}"
+devture_postgres_backup_container_additional_networks_auto: []
+devture_postgres_backup_container_additional_networks_custom: []
+
 devture_postgres_backup_container_image_registry_prefix: "docker.io/"
 
 # devture_postgres_backup_container_image_distro controls whether we use Alpine-based images (`-alpine`) or the normal Debian-based images.
