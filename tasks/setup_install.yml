@@ -37,13 +37,18 @@
     - "{{ devture_postgres_backup_config_path }}"
     - "{{ devture_postgres_backup_data_path }}"
 
-- name: Ensure Postgres environment variables file created
+- name: Ensure Postgres backup environment variables file created
   ansible.builtin.template:
     src: "{{ role_path }}/templates/env.j2"
     dest: "{{ devture_postgres_backup_config_path }}/env"
     owner: "{{ devture_postgres_backup_uid }}"
     group: "{{ devture_postgres_backup_gid }}"
     mode: 0640
+
+- name: Ensure postgres-backup container network is created
+  community.general.docker_network:
+    name: "{{ devture_postgres_backup_container_network }}"
+    driver: bridge
 
 - name: Ensure postgres-backup systemd service installed
   ansible.builtin.template:
