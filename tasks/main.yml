@@ -5,10 +5,10 @@
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
 
     - when: postgres_backup_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/setup_install.yml"
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
 
     - when: postgres_backup_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/setup_install_migrate_old_data.yml"
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install_migrate_old_data.yml"
   tags:
     - setup-all
     - setup-postgres-backup
@@ -17,7 +17,7 @@
 
 - block:
     - when: not postgres_backup_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/setup_uninstall.yml"
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
   tags:
     - setup-all
     - setup-postgres-backup
