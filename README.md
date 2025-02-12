@@ -6,6 +6,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Postgres-backup Ansible role
 
+[![REUSE status](https://api.reuse.software/badge/github.com/mother-of-all-self-hosting/ansible-role-postgres-backup)](https://api.reuse.software/info/github.com/mother-of-all-self-hosting/ansible-role-postgres-backup)
+
 This is an [Ansible](https://www.ansible.com/) role which sets up [prodrigestivill/docker-postgres-backup-local](https://github.com/prodrigestivill/docker-postgres-backup-local) for backing up [Postgres](https://www.postgresql.org/) (no matter if it's installed via [mother-of-all-self-hosting/ansible-role-postgres](https://github.com/mother-of-all-self-hosting/ansible-role-postgres) or not).
 
 The `postgres-backup` service is installed to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
