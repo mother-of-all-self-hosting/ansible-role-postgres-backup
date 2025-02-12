@@ -17,8 +17,9 @@ This role *implicitly* depends on:
 - [`com.devture.ansible.role.playbook_help`](https://github.com/devture/com.devture.ansible.role.playbook_help)
 - [`com.devture.ansible.role.systemd_docker_base`](https://github.com/devture/com.devture.ansible.role.systemd_docker_base)
 
-
 ## Usage
+
+💡 See this [document](docs/configuring-postgres-backup.md) for details about setting up the service with this role.
 
 Example playbook:
 
