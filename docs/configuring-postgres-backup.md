@@ -6,15 +6,17 @@ SPDX-FileCopyrightText: 2024 - 2025 Suguru Hirahara
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Setting up postgres backup (optional)
+# Setting up Postgres backup
 
-The playbook can install and configure [docker-postgres-backup-local](https://github.com/prodrigestivill/docker-postgres-backup-local) for you via the [ansible-role-postgres-backup](https://github.com/mother-of-all-self-hosting/ansible-role-postgres-backup) Ansible role.
+This is an [Ansible](https://www.ansible.com/) role which sets up [prodrigestivill/docker-postgres-backup-local](https://github.com/prodrigestivill/docker-postgres-backup-local) for backing up [Postgres](https://www.postgresql.org/).
 
-For a more complete backup solution (one that includes not only Postgres, but also other configuration/data files), you may wish to look into [BorgBackup](configuring-playbook-backup-borg.md) instead.
+For a more complete backup solution (one that includes not only Postgres, but also other configuration/data files), you may wish to look into [BorgBackup](https://github.com/mother-of-all-self-hosting/ansible-role-backup_borg) instead.
 
 ## Adjusting the playbook configuration
 
-To enable Postgres backup, add the following configuration to your `inventory/host_vars/matrix.example.com/vars.yml` file:
+To enable Postgres backup with this role, add the following configuration to your `vars.yml` file.
+
+**Note**: the path should be something like `inventory/host_vars/matrix.example.com/vars.yml` if you use the [matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy) Ansible playbook.
 
 ```yaml
 postgres_backup_enabled: true
@@ -25,7 +27,7 @@ Refer to the table below for additional configuration variables and their defaul
 | Name                              | Default value                | Description                                                      |
 | :-------------------------------- | :--------------------------- | :--------------------------------------------------------------- |
 |`postgres_backup_enabled`|`false`|Set to true to use [docker-postgres-backup-local](https://github.com/prodrigestivill/docker-postgres-backup-local) to create automatic database backups|
-|`postgres_backup_schedule`| `'@daily'` |Cron-schedule specifying the interval between postgres backups.|
+|`postgres_backup_schedule`| `'@daily'` |Cron-schedule specifying the interval between Postgres backups.|
 |`postgres_backup_keep_days`|`7`|Number of daily backups to keep|
 |`postgres_backup_keep_weeks`|`4`|Number of weekly backups to keep|
 |`postgres_backup_keep_months`|`12`|Number of monthly backups to keep|
@@ -34,17 +36,14 @@ Refer to the table below for additional configuration variables and their defaul
 
 ## Installing
 
-After configuring the playbook, run it with [playbook tags](playbook-tags.md) as below:
+After configuring the playbook, run the installation command of your playbook as below:
 
-<!-- NOTE: let this conservative command run (instead of install-all) to make it clear that failure of the command means something is clearly broken. -->
 ```sh
 ansible-playbook -i inventory/hosts setup.yml --tags=setup-all,start
 ```
 
-The shortcut commands with the [`just` program](just.md) are also available: `just install-all` or `just setup-all`
-
-`just install-all` is useful for maintaining your setup quickly ([2x-5x faster](../CHANGELOG.md#2x-5x-performance-improvements-in-playbook-runtime) than `just setup-all`) when its components remain unchanged. If you adjust your `vars.yml` to remove other components, you'd need to run `just setup-all`, or these components will still remain installed. Note these shortcuts run the `ensure-matrix-users-created` tag too.
+If you use the [mash-playbook](https://github.com/mother-of-all-self-hosting/mash-playbook) or [matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy) Ansible playbook, the shortcut commands with the [`just` program](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/just.md) are also available: `just install-all` or `just setup-all`
 
 ## Troubleshooting
 
-As with all other services, you can find the logs in [systemd-journald](https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html) by logging in to the server with SSH and running `journalctl -fu matrix-postgres-backup`.
+As with all other services, you can find the logs in [systemd-journald](https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html) by logging in to the server with SSH and running `journalctl -fu postgres-backup` (or how you/your playbook named the service, e.g. `matrix-postgres-backup`).
