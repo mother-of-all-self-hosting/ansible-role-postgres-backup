@@ -34,6 +34,14 @@ Refer to the table below for additional configuration variables and their defaul
 |`postgres_backup_base_path` | `"{{ matrix_base_data_path }}/postgres-backup"` | Base path for postgres-backup. Also see `postgres_backup_data_path` |
 |`postgres_backup_data_path` | `"{{ postgres_backup_base_path }}/data"` | Storage path for postgres-backup database backups |
 
+### Extending the configuration
+
+There are some additional things you may wish to configure about the component.
+
+Take a look at:
+
+- [`defaults/main.yml`](../defaults/main.yml) for some variables that you can customize via your `vars.yml` file
+
 ## Installing
 
 After configuring the playbook, run the installation command of your playbook as below:
