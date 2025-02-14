@@ -19,7 +19,19 @@ To enable Postgres backup with this role, add the following configuration to you
 **Note**: the path should be something like `inventory/host_vars/matrix.example.com/vars.yml` if you use the [matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy) Ansible playbook.
 
 ```yaml
+########################################################################
+#                                                                      #
+# postgres-backup                                                      #
+#                                                                      #
+########################################################################
+
 postgres_backup_enabled: true
+
+########################################################################
+#                                                                      #
+# /postgres-backup                                                     #
+#                                                                      #
+########################################################################
 ```
 
 Refer to the table below for additional configuration variables and their default values.
