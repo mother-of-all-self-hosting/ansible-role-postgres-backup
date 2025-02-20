@@ -56,5 +56,5 @@ postgres_backup_connection_password: ""
 postgres_backup_postgres_data_path: ""
 # Alternatively, you'd need to configure `postgres_backup_container_image_to_use`.
 
-postgres_backup_databases: ['first', 'second', 'third']
+postgres_backup_databases_auto: ['first', 'second', 'third']
 ```
