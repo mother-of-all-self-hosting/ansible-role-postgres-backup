@@ -66,4 +66,4 @@ If you use the [mash-playbook](https://github.com/mother-of-all-self-hosting/mas
 
 ## Troubleshooting
 
-As with all other services, you can find the logs in [systemd-journald](https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html) by logging in to the server with SSH and running `journalctl -fu postgres-backup` (or how you/your playbook named the service, e.g. `matrix-postgres-backup`).
+You can find the logs in [systemd-journald](https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html) by logging in to the server with SSH and running `journalctl -fu postgres-backup` (or how you/your playbook named the service, e.g. `matrix-postgres-backup`).
