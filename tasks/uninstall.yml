@@ -18,7 +18,7 @@
         enabled: false
         daemon_reload: true
 
-    - name: Ensure postgres-backup paths don't exist
+    - name: Ensure postgres-backup paths do not exist
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
