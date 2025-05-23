@@ -1,17 +1,21 @@
-# SPDX-FileCopyrightText: 2022-2024 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2022 - 2024 Slavi Pantaleev
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
 
-- block:
-    - when: postgres_backup_enabled | bool
+- name: Perform postgres-backup installation tasks
+  block:
+    - name: Validate postgres-backup configuration
+      when: postgres_backup_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
 
-    - when: postgres_backup_enabled | bool
+    - name: Install postgres-backup
+      when: postgres_backup_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
 
-    - when: postgres_backup_enabled | bool
+    - name: Migrate old postgres-backup
+      when: postgres_backup_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/install_migrate_old_data.yml"
   tags:
     - setup-all
@@ -19,8 +23,10 @@
     - install-all
     - install-postgres-backup
 
-- block:
-    - when: not postgres_backup_enabled | bool
+- name: Perform postgres-backup uninstallation tasks
+  block:
+    - name: Uninstall postgres-backup
+      when: not postgres_backup_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
   tags:
     - setup-all

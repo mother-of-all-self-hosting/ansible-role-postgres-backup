@@ -18,17 +18,6 @@
         postgres_backup_container_image_to_use: "{{ postgres_backup_detected_version_corresponding_docker_image }}"
       when: postgres_backup_detected_version_corresponding_docker_image | default('') != ''
 
-- name: Ensure postgres-backup Docker image is pulled
-  community.docker.docker_image:
-    name: "{{ postgres_backup_container_image_to_use }}"
-    source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
-    force_source: "{{ postgres_backup_container_image_force_pull if ansible_version.major > 2 or ansible_version.minor >= 8 else omit }}"
-    force: "{{ omit if ansible_version.major > 2 or ansible_version.minor >= 8 else postgres_backup_container_image_force_pull }}"
-  register: result
-  retries: "{{ devture_playbook_help_container_retries_count }}"
-  delay: "{{ devture_playbook_help_container_retries_delay }}"
-  until: result is not failed
-
 - name: Ensure postgres-backup paths exist
   ansible.builtin.file:
     path: "{{ item }}"
@@ -48,6 +37,17 @@
     owner: "{{ postgres_backup_uid }}"
     group: "{{ postgres_backup_gid }}"
     mode: 0640
+
+- name: Ensure postgres-backup Docker image is pulled
+  community.docker.docker_image:
+    name: "{{ postgres_backup_container_image_to_use }}"
+    source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
+    force_source: "{{ postgres_backup_container_image_force_pull if ansible_version.major > 2 or ansible_version.minor >= 8 else omit }}"
+    force: "{{ omit if ansible_version.major > 2 or ansible_version.minor >= 8 else postgres_backup_container_image_force_pull }}"
+  register: result
+  retries: "{{ devture_playbook_help_container_retries_count }}"
+  delay: "{{ devture_playbook_help_container_retries_delay }}"
+  until: result is not failed
 
 - name: Ensure postgres-backup container network is created
   community.general.docker_network:
