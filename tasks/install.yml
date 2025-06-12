@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
-- when: postgres_backup_postgres_data_path != ''
+- name: Run if postgres_backup_postgres_data_path is specified to autodetect the Postgres version
+  when: postgres_backup_postgres_data_path != ''
   block:
     - name: Detect Postgres version from provided data path
       ansible.builtin.include_role:
@@ -22,7 +22,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: 0700
+    mode: "0700"
     owner: "{{ postgres_backup_uid }}"
     group: "{{ postgres_backup_gid }}"
   with_items:
@@ -36,7 +36,7 @@
     dest: "{{ postgres_backup_config_path }}/env"
     owner: "{{ postgres_backup_uid }}"
     group: "{{ postgres_backup_gid }}"
-    mode: 0640
+    mode: "0640"
 
 - name: Ensure postgres-backup Docker image is pulled
   community.docker.docker_image:
@@ -60,4 +60,4 @@
   ansible.builtin.template:
     src: "{{ role_path }}/templates/systemd/postgres-backup.service.j2"
     dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ postgres_backup_identifier }}.service"
-    mode: 0644
+    mode: "0644"
