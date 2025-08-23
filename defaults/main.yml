@@ -68,6 +68,7 @@ postgres_backup_postgres_role_include_name: galaxy/postgres
 
 postgres_backup_architecture: amd64
 
+# List of systemd services that the Postgres-backup systemd service depends on
 postgres_backup_systemd_required_services_list: "{{ postgres_backup_systemd_required_services_list_default + postgres_backup_systemd_required_services_list_auto + postgres_backup_systemd_required_services_list_custom }}"
 postgres_backup_systemd_required_services_list_default: "{{ [devture_systemd_docker_base_docker_service_name] if devture_systemd_docker_base_docker_service_name else [] }}"
 postgres_backup_systemd_required_services_list_auto: []
