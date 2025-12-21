@@ -24,10 +24,10 @@ postgres_backup_data_path: "{{ postgres_backup_base_path }}/data"
 postgres_backup_uid: ~
 postgres_backup_gid: ~
 
-postgres_backup_connection_hostname: ''
+postgres_backup_connection_hostname: ""
 postgres_backup_connection_port: 5432
-postgres_backup_connection_username: ''
-postgres_backup_connection_password: ''
+postgres_backup_connection_username: ""
+postgres_backup_connection_password: ""
 
 postgres_backup_extra_opts: "-Z9 --schema=public --blobs"
 postgres_backup_schedule: "@daily"
@@ -59,7 +59,7 @@ postgres_backup_databases_custom: []
 #
 # You can leave this empty to prevent auto-detection.
 # If so, the default value of `postgres_backup_container_image_to_use` is used.
-postgres_backup_postgres_data_path: ''
+postgres_backup_postgres_data_path: ""
 
 # Specifies where the Postgres role is to be included from, for auto-detection purposes.
 # This should be a path relative to your role directories.
@@ -126,4 +126,4 @@ postgres_backup_container_image_force_pull: "{{ postgres_backup_container_image_
 #   WEBHOOK_ERROR_URL=https://example.com/webhook-error
 #
 # Ref: https://github.com/prodrigestivill/docker-postgres-backup-local/blob/8181772cbe50ebaaa1950f585b915035a2c02128/README.md#environment-variables
-postgres_backup_environment_variables_additional_variables: ''
+postgres_backup_environment_variables_additional_variables: ""
