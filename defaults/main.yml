@@ -86,6 +86,11 @@ postgres_backup_container_additional_networks: "{{ postgres_backup_container_add
 postgres_backup_container_additional_networks_auto: []
 postgres_backup_container_additional_networks_custom: []
 
+# A list of extra arguments to pass to the container (`docker create` command)
+postgres_backup_container_extra_arguments: "{{ postgres_backup_container_extra_arguments_auto + postgres_backup_container_extra_arguments_custom }}"
+postgres_backup_container_extra_arguments_auto: []
+postgres_backup_container_extra_arguments_custom: []
+
 postgres_backup_container_image_registry_prefix: "{{ postgres_backup_container_image_registry_prefix_upstream }}"
 postgres_backup_container_image_registry_prefix_upstream: "{{ postgres_backup_container_image_registry_prefix_upstream_default }}"
 postgres_backup_container_image_registry_prefix_upstream_default: "docker.io/"
