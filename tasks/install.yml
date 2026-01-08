@@ -35,9 +35,9 @@
   ansible.builtin.template:
     src: "{{ role_path }}/templates/env.j2"
     dest: "{{ postgres_backup_config_path }}/env"
+    mode: "0640"
     owner: "{{ postgres_backup_uid }}"
     group: "{{ postgres_backup_gid }}"
-    mode: "0640"
 
 - name: Ensure postgres-backup container image is pulled via community.docker.docker_image
   when: devture_systemd_docker_base_container_image_pull_method == 'ansible-module'
