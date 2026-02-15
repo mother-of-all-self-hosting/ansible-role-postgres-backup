@@ -81,7 +81,11 @@ postgres_backup_systemd_wanted_services_list_default: []
 postgres_backup_systemd_wanted_services_list_auto: []
 postgres_backup_systemd_wanted_services_list_custom: []
 
+# The base container network. It will be auto-created by this role if it doesn't exist already.
 postgres_backup_container_network: "{{ postgres_backup_identifier }}"
+
+# Control if the container network is deleted on uninstalling.
+postgres_backup_container_network_deletion_enabled: true
 
 postgres_backup_container_additional_networks: "{{ postgres_backup_container_additional_networks_auto + postgres_backup_container_additional_networks_custom }}"
 postgres_backup_container_additional_networks_auto: []
