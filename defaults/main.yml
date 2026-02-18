@@ -135,3 +135,13 @@ postgres_backup_environment_variables_tz: UTC
 #
 # Ref: https://github.com/prodrigestivill/docker-postgres-backup-local/blob/8181772cbe50ebaaa1950f585b915035a2c02128/README.md#environment-variables
 postgres_backup_environment_variables_additional_variables: ""
+
+# postgres_backup_restart_necessary controls whether the postgres-backup systemd
+# service will be restarted (when true) or merely started (when false) by the
+# systemd service manager role (when conditional restart is enabled).
+#
+# This value is automatically computed during installation based on whether
+# any configuration files, the systemd service file, or the container image changed.
+# The default of `false` means "no restart needed" — appropriate when the role's
+# installation tasks haven't run (e.g., due to --tags skipping them).
+postgres_backup_restart_necessary: false
