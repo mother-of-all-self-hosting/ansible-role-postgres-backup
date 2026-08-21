@@ -5,7 +5,7 @@ SPDX-FileCopyrightText: 2026 Suguru Hirahara
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Postgres-backup Ansible role
+# postgres-backup-local Ansible role
 
 [![REUSE status](https://api.reuse.software/badge/github.com/mother-of-all-self-hosting/ansible-role-postgres-backup)](https://api.reuse.software/info/github.com/mother-of-all-self-hosting/ansible-role-postgres-backup)
 

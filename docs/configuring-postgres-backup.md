@@ -44,7 +44,7 @@ Refer to the table below for additional configuration variables and their defaul
 | `postgres_backup_keep_weeks`  | `4`                                             | Number of weekly backups to keep                                                                                                                        |
 | `postgres_backup_keep_months` | `12`                                            | Number of monthly backups to keep                                                                                                                       |
 | `postgres_backup_base_path`   | `"{{ matrix_base_data_path }}/postgres-backup"` | Base path for postgres-backup. Also see `postgres_backup_data_path`                                                                                     |
-| `postgres_backup_data_path`   | `"{{ postgres_backup_base_path }}/data"`        | Storage path for postgres-backup database backups                                                                                                       |
+| `postgres_backup_data_path`   | `"{{ postgres_backup_base_path }}/data"`        | Storage path for postgres-backup-local database backups                                                                                                 |
 
 ### Extending the configuration
 

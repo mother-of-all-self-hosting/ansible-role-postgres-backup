@@ -15,7 +15,7 @@
     - { "old": "postgres_backup_docker_image_to_use", "new": "postgres_backup_container_image_to_use" }
     - { "old": "postgres_backup_container_image_force_pull", "new": "<removed> (the new community.docker.docker_image_pull module handles this natively)" }
 
-- name: Fail if required postgres-backup settings not defined
+- name: Fail if required postgres-backup-local settings not defined
   ansible.builtin.fail:
     msg: >-
       You need to define a required configuration setting (`{{ item }}`).
