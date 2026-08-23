@@ -226,9 +226,9 @@
     - name: Show postgres-backup-local verification summary
       ansible.builtin.debug:
         msg:
+          - "Postgres server major: {{ postgres_backup_server_version.stdout | trim }}"
           - "postgres-backup-local systemd: {{ postgres_backup_service.status.ActiveState }}"
           - "postgres-backup-local image: {{ postgres_backup_unit_container_image }}"
-          - "Postgres server major: {{ postgres_backup_server_version.stdout | trim }}"
           - "postgres-backup-local schedule: {{ postgres_backup_healthcheck_json.Schedule }}"
           - "postgres-backup-local last run exit status: {{ postgres_backup_healthcheck_json.Last.Exit_status }}"
           - "postgres-backup-local dump: {{ postgres_backup_dumps.files[0].path }} ({{ postgres_backup_dumps.files[0].size }} bytes)"
