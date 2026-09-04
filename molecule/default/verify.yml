@@ -226,13 +226,13 @@
         fail_msg: "The configured retention and schedule did not reach the container: {{ postgres_backup_env_lines }}"
         success_msg: "The configured retention and schedule reached the container"
 
-    - name: Show postgres-backup-local verification summary
+    - name: Show the postgres-backup-local verification summary
       ansible.builtin.debug:
         msg:
-          - "Postgres server major: {{ postgres_backup_server_version.stdout | trim }}"
           - "postgres-backup-local systemd: {{ postgres_backup_service.status.ActiveState }}"
           - "postgres-backup-local image: {{ postgres_backup_unit_container_image }}"
           - "postgres-backup-local schedule: {{ postgres_backup_healthcheck_json.Schedule }}"
           - "postgres-backup-local last run exit status: {{ postgres_backup_healthcheck_json.Last.Exit_status }}"
           - "postgres-backup-local dump: {{ postgres_backup_dumps.files[0].path }} ({{ postgres_backup_dumps.files[0].size }} bytes)"
           - "postgres-backup-local dump contents: {{ postgres_backup_dump_contents.stdout_lines }}"
+          - "Postgres version: {{ postgres_backup_server_version.stdout | trim }}"
