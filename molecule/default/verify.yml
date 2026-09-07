@@ -209,7 +209,7 @@
         src: "{{ postgres_backup_config_path }}/env"
       register: postgres_backup_env_file
 
-    - name: Make sense of the postgres-backup-local environment file
+    - name: Parse the postgres-backup-local environment file
       ansible.builtin.set_fact:
         postgres_backup_env_lines: "{{ (postgres_backup_env_file.content | b64decode).splitlines() }}"
 
