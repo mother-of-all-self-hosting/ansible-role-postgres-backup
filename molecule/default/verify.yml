@@ -18,21 +18,27 @@
         file: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
         name: postgres_backup_defaults
 
-    - name: Wait for postgres-backup-local service to become active (up to 180s)
-      ansible.builtin.systemd:
+    - name: Wait for the postgres-backup-local systemd service to become active (up to 180s)
+      ansible.builtin.systemd_service:
         name: postgres-backup.service
       register: postgres_backup_service
       until: postgres_backup_service.status.ActiveState == 'active'
       retries: 36
       delay: 5
+      # So that giving up is reported by the assertion below rather than as a
+      # wall of systemd unit properties.
+      failed_when: false
 
-    - name: Assert postgres-backup-local service is active
+    # `Restart=always` in the systemd unit means that even a container which crashes
+    # and gets restarted reads as active here, so this is a precondition rather than
+    # a result.
+    - name: Assert the postgres-backup-local systemd service is active
       ansible.builtin.assert:
         that: postgres_backup_service.status.ActiveState == 'active'
-        fail_msg: "postgres-backup.service not active ({{ postgres_backup_service.status.ActiveState }})"
+        fail_msg: "postgres-backup.service is not active ({{ postgres_backup_service.status.ActiveState }})"
         success_msg: "postgres-backup.service is active"
 
-    - name: Retrieve postgres-backup-local service log for debugging
+    - name: Retrieve the postgres-backup-local systemd service log for debugging
       when: postgres_backup_debug_service_enabled | bool
       ansible.builtin.command:
         cmd: journalctl -xeu postgres-backup.service
