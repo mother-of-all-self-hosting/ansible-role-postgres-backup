@@ -10,6 +10,8 @@
   become: true
   gather_facts: false
   tasks:
+    - name: Verify that postgres-backup-local works
+      block:
     # The role is not included in this playbook, so its defaults are not in
     # scope. Reading defaults/main.yml directly ties the version assertion
     # below.
@@ -242,3 +244,19 @@
           - "postgres-backup-local dump: {{ postgres_backup_dumps.files[0].path }} ({{ postgres_backup_dumps.files[0].size }} bytes)"
           - "postgres-backup-local dump contents: {{ postgres_backup_dump_contents.stdout_lines }}"
           - "Postgres version: {{ postgres_backup_server_version.stdout | trim }}"
+
+      rescue:
+        # Whatever went wrong, the reason is almost always in the systemd service log.
+        - name: Retrieve the postgres-backup-local systemd service log
+          ansible.builtin.command:
+            cmd: journalctl --no-pager --output=cat --unit=postgres-backup.service
+          register: postgres_backup_service_log
+          changed_when: false
+
+        - name: Show the postgres-backup-local systemd service log
+          ansible.builtin.debug:
+            var: postgres_backup_service_log.stdout_lines
+
+        - name: Fail because verification did not pass
+          ansible.builtin.fail:
+            msg: "postgres-backup-local verification failed. The systemd service log is printed above."
