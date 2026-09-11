@@ -9,6 +9,12 @@
   hosts: all
   become: true
   gather_facts: false
+
+  vars:
+    postgres_backup_verify_units:
+      - postgres-backup.service
+      - postgres.service
+
   tasks:
     - name: Verify that postgres-backup-local works
       block:
@@ -20,13 +26,14 @@
             file: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
             name: postgres_backup_defaults
 
-        - name: Wait for the postgres-backup-local systemd service to become active (up to 180s)
+        - name: Wait for the postgres-backup-local systemd services to become active (up to 180s each)
           ansible.builtin.systemd_service:
-            name: postgres-backup.service
-          register: postgres_backup_service
-          until: postgres_backup_service.status.ActiveState == 'active'
+            name: "{{ item }}"
+          register: postgres_backup_services
+          until: postgres_backup_services.status.ActiveState == 'active'
           retries: 36
           delay: 5
+          loop: "{{ postgres_backup_verify_units }}"
           # So that giving up is reported by the assertion below rather than as a
           # wall of systemd unit properties.
           failed_when: false
@@ -34,17 +41,20 @@
         # `Restart=always` in the systemd unit means that even a container which crashes
         # and gets restarted reads as active here, so this is a precondition rather than
         # a result.
-        - name: Assert the postgres-backup-local systemd service is active
+        - name: Assert the postgres-backup-local systemd services are active
           ansible.builtin.assert:
-            that: postgres_backup_service.status.ActiveState == 'active'
-            fail_msg: "postgres-backup.service is not active ({{ postgres_backup_service.status.ActiveState }})"
-            success_msg: "postgres-backup.service is active"
+            that: postgres_backup_services.results | map(attribute='status.ActiveState') | unique | list == ['active']
+            fail_msg: >-
+              Not every service is active:
+              {{ dict(postgres_backup_verify_units | zip(postgres_backup_services.results | map(attribute='status.ActiveState'))) }}
+            success_msg: "Every systemd service is active"
 
-        - name: Retrieve the postgres-backup-local systemd service log for debugging
+        - name: Retrieve the postgres-backup-local systemd services log for debugging
           when: postgres_backup_debug_service_enabled | bool
           ansible.builtin.command:
-            cmd: journalctl --no-pager --output=cat --unit=postgres-backup.service
+            cmd: "journalctl --no-pager --output=cat --unit={{ item }}"
           changed_when: false
+          loop: "{{ postgres_backup_verify_units }}"
 
         # ---------------------------------------------------------------------
         # The systemd unit is wired to the configured paths and container image
@@ -237,7 +247,7 @@
         - name: Show the postgres-backup-local verification summary
           ansible.builtin.debug:
             msg:
-              - "postgres-backup-local systemd: {{ postgres_backup_service.status.ActiveState }}"
+              - "postgres-backup-local systemd: {% for unit, state in postgres_backup_verify_units | zip(postgres_backup_services.results | map(attribute='status.ActiveState')) %}{{ unit }} ({{ state }}){% if not loop.last %}, {% endif %}{% endfor %}"
               - "postgres-backup-local image: {{ postgres_backup_unit_container_image }}"
               - "postgres-backup-local schedule: {{ postgres_backup_healthcheck_json.Schedule }}"
               - "postgres-backup-local last run exit status: {{ postgres_backup_healthcheck_json.Last.Exit_status }}"
