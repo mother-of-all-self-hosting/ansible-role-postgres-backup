@@ -31,6 +31,7 @@ provisioner:
       all:
         # Helper variables
         postgres_backup_debug_service_enabled: false
+        postgres_backup_restarts_check_enabled: true
 
         # The database that this scenario creates, fills with a distinctive row
         # and then expects to find inside a dump.
