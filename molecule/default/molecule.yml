@@ -128,7 +128,7 @@ scenario:
     - create
     - prepare
     - converge
-    # Disable idempotence test for now due to ansible-role-postgres
+    # Disable idempotence test for now due to "Ensure the Molecule probe table is seeded into the database" being changed every time
     # - idempotence
     - side_effect
     - verify
