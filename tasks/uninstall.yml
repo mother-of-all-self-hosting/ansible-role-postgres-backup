@@ -29,7 +29,7 @@
         - "{{ postgres_backup_config_path }}"
 
     - name: Ensure postgres-backup-local container network does not exist
-      when: postgres_backup_container_network_deletion_enabled
+      when: postgres_backup_container_network_deletion_enabled and postgres_backup_container_network != 'host'
       block:
         - name: Ensure postgres-backup-local container network does not exist via community.docker.docker_network
           when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
